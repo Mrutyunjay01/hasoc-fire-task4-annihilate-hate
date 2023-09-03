@@ -18,7 +18,7 @@ _LABEL2ID = config['data']['labelmaps']['label2id']
 _ID2LABEL = config['data']['labelmaps']['id2label']
 _MODEL_NAME = "csebuetnlp/banglabert"
 _NUM_EPOCHS = 1
-_BATCH_SIZE = 8
+_BATCH_SIZE = 32
 _TARGET_COL = 'task_1'
 
 if __name__ == '__main__':
@@ -137,5 +137,6 @@ if __name__ == '__main__':
     test_data[_TARGET_COL] = test_data[_TARGET_COL].map(_ID2LABEL)
     test_data[_TARGET_COL].value_counts()
 
-    test_data[['S. No.', _TARGET_COL]].head()
+    test_data['S. No.'] = test_data.index + 1
+    logger.info(f'\n{test_data[["S. No.", _TARGET_COL]].head()}')
     test_data[['S. No.', _TARGET_COL]].to_csv(os.path.join(config['data']['out'], f'submission_{_LANG}.csv'), index=False)
